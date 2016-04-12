@@ -19,7 +19,7 @@ def test_no_redis_configured(bp):
         bp.redis
 
     expected = 'Must set a redis connection URL in app config.'
-    assert str(excinfo.value.message) == expected
+    assert str(excinfo.value.args[0]) == expected
 
 
 def test_redis_url_config(bp, app):
