@@ -8,6 +8,6 @@ install:
   - travis_retry pip install -e .
   - travis_retry pip install -U pytest pytest-mock pytest-cover codecov
 script:
-  - py.test --cov=flask_dance
+  - py.test --cov=flask_sse
 after_success:
   - codecov
