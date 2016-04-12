@@ -121,6 +121,7 @@ def test_stream(bp, app, mockredis):
     assert resp.is_streamed
     output = resp.get_data(as_text=True)
     assert output == "event:example\ndata:thing\n\n"
+    pubsub.subscribe.assert_called_with('sse')
 
 
 def test_sse_object():
@@ -128,3 +129,25 @@ def test_sse_object():
     # calling `add_url_rule` adds an entry to the `deferred_functions` list,
     # which is about the only thing we can test for
     assert len(flask_sse.sse.deferred_functions) == 1
+
+
+def test_stream_channel_arg(app, mockredis):
+    app.config["REDIS_URL"] = "redis://localhost"
+    app.register_blueprint(flask_sse.sse, url_prefix='/stream')
+    client = app.test_client()
+    pubsub = mockredis.pubsub.return_value
+    pubsub.listen.return_value = [
+        {
+            "type": "message",
+            "data": '{"data": "thing", "type": "example"}',
+        }
+    ]
+
+    resp = client.get("/stream?channel=different")
+
+    assert isinstance(resp, flask.Response)
+    assert resp.mimetype == "text/event-stream"
+    assert resp.is_streamed
+    output = resp.get_data(as_text=True)
+    assert output == "event:example\ndata:thing\n\n"
+    pubsub.subscribe.assert_called_with('different')
