@@ -81,6 +81,15 @@ class Message(object):
             kwargs=kwargs_repr,
         )
 
+    def __eq__(self, other):
+        return (
+            isinstance(other, self.__class__) and
+            self.data == other.data and
+            self.type == other.type and
+            self.id == other.id and
+            self.retry == other.retry
+        )
+
 
 class ServerSentEventsBlueprint(Blueprint):
     """

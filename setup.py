@@ -19,6 +19,10 @@ install_requires = [
     "redis",
     "six",
 ]
+test_requires = [
+    "pytest",
+    "pytest-mock",
+]
 
 setup(
     name="Flask-SSE",
@@ -30,6 +34,7 @@ setup(
     url="https://github.com/singingwolfboy/flask-sse",
     packages=find_packages(),
     install_requires=install_requires,
+    tests_require=test_requires,
     license='MIT',
     classifiers=(
         'License :: OSI Approved :: MIT License',
