@@ -15,7 +15,7 @@ Example of sending events:
 
     @app.route('/send')
     def send_message():
-        sse.publish('event-type', {"message": "Hello!"})
+        sse.publish({"message": "Hello!"}, type='greeting')
         return "Message sent!"
 
 To receive events on a webpage, use Javascript to connect to the event stream,
@@ -24,7 +24,7 @@ like this:
 .. code-block:: javascript
 
     var source = new EventSource("{{ url_for('sse.stream') }}");
-    source.addEventListener('event-type', function(event) {
+    source.addEventListener('greeting', function(event) {
         var data = JSON.parse(event.data);
         // do what you want with this data
     }, false);

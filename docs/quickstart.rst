@@ -40,7 +40,7 @@ Make a file on your computer called ``sse.py``, with the following content:
 
     @app.route('/hello')
     def publish_hello():
-        sse.publish('event-type', {"message": "Hello!"})
+        sse.publish({"message": "Hello!"}, type='greeting')
         return "Message sent!"
 
 Make a ``templates`` folder next to ``sse.py``, and create a file named
@@ -57,7 +57,7 @@ Make a ``templates`` folder next to ``sse.py``, and create a file named
       <h1>Flask-SSE Quickstart</h1>
       <script>
         var source = new EventSource("{{ url_for('sse.stream') }}");
-        source.addEventListener('event-type', function(event) {
+        source.addEventListener('greeting', function(event) {
             var data = JSON.parse(event.data);
             alert(data);
         }, false);
