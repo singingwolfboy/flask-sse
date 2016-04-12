@@ -1,9 +1,8 @@
 # coding=utf-8
 from __future__ import unicode_literals
 
-import sys
 import re
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 version = ''
@@ -32,7 +31,7 @@ setup(
     author="David Baumgold",
     author_email="david@davidbaumgold.com",
     url="https://github.com/singingwolfboy/flask-sse",
-    packages=find_packages(),
+    py_modules=['flask_sse'],
     install_requires=install_requires,
     tests_require=test_requires,
     license='MIT',
