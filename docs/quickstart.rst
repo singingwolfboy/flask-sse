@@ -27,7 +27,7 @@ Make a file on your computer called ``sse.py``, with the following content:
 
 .. code-block:: python
 
-    from flask import Flask, json, render_template
+    from flask import Flask, render_template
     from flask_sse import sse
 
     app = Flask(__name__)
