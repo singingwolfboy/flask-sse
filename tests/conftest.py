@@ -1,6 +1,5 @@
 import pytest
 from flask import Flask
-from mockredis import mock_strict_redis_client
 
 
 @pytest.fixture
