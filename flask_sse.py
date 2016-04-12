@@ -144,6 +144,8 @@ class ServerSentEventsBlueprint(Blueprint):
         """
         A view function that streams server-sent events. Ignores any
         :mailheader:`Last-Event-ID` headers in the HTTP request.
+        Use a "channel" query parameter to stream events from a different
+        channel than the default channel (which is "sse").
         """
         channel = request.args.get('channel') or 'sse'
 
