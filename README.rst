@@ -1,5 +1,5 @@
-Flask SSE |docs|
-================
+Flask SSE |build-status| |coverage-status| |docs|
+=================================================
 A Flask extension for HTML5 `server-sent events`_ support, powered by Redis_.
 
 Example of sending events:
@@ -35,6 +35,12 @@ is hosted on ReadTheDocs. <http://flask-sse.readthedocs.org/>`_
 .. _server-sent events: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
 .. _Redis: http://www.redis.io/
 
+.. |build-status| image:: https://travis-ci.org/singingwolfboy/flask-sse.svg?branch=master&style=flat
+   :target: https://travis-ci.org/singingwolfboy/flask-sse
+   :alt: Build status
+.. |coverage-status| image:: http://codecov.io/github/singingwolfboy/flask-sse/coverage.svg?branch=master
+   :target: http://codecov.io/github/singingwolfboy/flask-sse?branch=master
+   :alt: Test coverage
 .. |docs| image:: https://readthedocs.org/projects/flask-sse/badge/?version=latest&style=flat
    :target: http://flask-sse.readthedocs.org/
    :alt: Documentation
