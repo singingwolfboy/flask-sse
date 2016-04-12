@@ -27,7 +27,7 @@ Make a file on your computer called ``sse.py``, with the following content:
 
 .. code-block:: python
 
-    from flask import Flask, json
+    from flask import Flask, json, render_template
     from flask_sse import sse
 
     app = Flask(__name__)
@@ -59,7 +59,7 @@ Make a ``templates`` folder next to ``sse.py``, and create a file named
         var source = new EventSource("{{ url_for('sse.stream') }}");
         source.addEventListener('greeting', function(event) {
             var data = JSON.parse(event.data);
-            alert(data);
+            alert("The server says " + data.message);
         }, false);
       </script>
     </body>
@@ -69,7 +69,7 @@ Run your code using gunicorn's gevent workers:
 
 .. code-block:: bash
 
-    $ gunicorn sse:app --worker-type gevent --bind 127.0.0.1:8000
+    $ gunicorn sse:app --worker-class gevent --bind 127.0.0.1:8000
 
 Open your web browser, and visit ``127.0.0.1:8000``. Your web browser will
 automatically connect to the server-sent event stream. Open another tab, and
