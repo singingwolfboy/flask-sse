@@ -61,9 +61,9 @@ Make a ``templates`` folder next to ``sse.py``, and create a file named
             var data = JSON.parse(event.data);
             alert("The server says " + data.message);
         }, false);
-        source.onerror = function(error) {
+        source.addEventListener('error', function(event) {
             alert("Failed to connect to event stream. Is Redis running?");
-        }
+        }, false);
       </script>
     </body>
     </html>
