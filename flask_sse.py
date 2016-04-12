@@ -109,21 +109,21 @@ class ServerSentEventsBlueprint(Blueprint):
             raise KeyError("Must set a redis connection URL in app config.")
         return StrictRedis.from_url(redis_url)
 
-    def publish(self, data, channel='sse', type=None, id=None, retry=None):
+    def publish(self, data, type=None, id=None, retry=None, channel='sse'):
         """
         Publish data as a server-sent event.
 
         :param data: The event data. If it is not a string, it will be
             serialized to JSON using the Flask application's
             :class:`~flask.json.JSONEncoder`.
-        :param channel: If you want to direct different events to different
-            clients, you may specify a channel for this event to go to.
-            Only clients listening to the same channel will receive this event.
-            Defaults to "sse".
         :param type: An optional event type.
         :param id: An optional event ID.
         :param retry: An optional integer, to specify the reconnect time for
             disconnected clients of this stream.
+        :param channel: If you want to direct different events to different
+            clients, you may specify a channel for this event to go to.
+            Only clients listening to the same channel will receive this event.
+            Defaults to "sse".
         """
         message = Message(data, type=type, id=id, retry=retry)
         msg_json = json.dumps(message.to_dict())
