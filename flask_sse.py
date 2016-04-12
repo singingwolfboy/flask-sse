@@ -48,7 +48,7 @@ class Message(object):
     def __str__(self):
         """
         Serialize this object to a string, according to the `server-sent events
-        specificiation <https://www.w3.org/TR/eventsource/>`_.
+        specification <https://www.w3.org/TR/eventsource/>`_.
         """
         if isinstance(self.data, six.string_types):
             data = self.data
