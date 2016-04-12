@@ -14,6 +14,7 @@ def test_simple_data():
     assert m.id == None
     assert m.retry == None
 
+    assert m.to_dict() == {"data": "foo"}
     assert repr(m) == "Message('foo')"
     assert str(m) == 'data:foo\n\n'
 
@@ -25,6 +26,7 @@ def test_data_dict():
     assert m.id == None
     assert m.retry == None
 
+    assert m.to_dict() == {"data": {"message": "Hello!"}}
     assert repr(m) == "Message({'message': 'Hello!'})"
     assert str(m) == 'data:{"message": "Hello!"}\n\n'
 
@@ -36,6 +38,7 @@ def test_multiline_data():
     assert m.id == None
     assert m.retry == None
 
+    assert m.to_dict() == {"data": "foo\nbar"}
     assert repr(m) == "Message('foo\\nbar')"
     assert str(m) == 'data:foo\ndata:bar\n\n'
 
@@ -47,6 +50,12 @@ def test_all_args():
     assert m.id == 5
     assert m.retry == 500
 
+    assert m.to_dict() == {
+        "data": "foo",
+        "type": "example",
+        "id": 5,
+        "retry": 500,
+    }
     assert repr(m) == "Message('foo', type='example', id=5, retry=500)"
     assert str(m) == 'event:example\ndata:foo\nid:5\nretry:500\n\n'
 
