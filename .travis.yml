@@ -1,0 +1,13 @@
+sudo: false
+language: python
+cache: pip
+python:
+  - 2.7
+  - 3.5
+install:
+  - travis_retry pip install -e .
+  - travis_retry pip install -U pytest pytest-mock pytest-cover codecov
+script:
+  - py.test --cov=flask_dance
+after_success:
+  - codecov
