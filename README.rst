@@ -6,7 +6,7 @@ Example of sending events:
 
 .. code-block:: python
 
-    from flask import Flask, json
+    from flask import Flask
     from flask_sse import sse
 
     app = Flask(__name__)
