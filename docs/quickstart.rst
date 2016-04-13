@@ -20,7 +20,7 @@ You will also need to make sure you have a Redis_ server running locally.
 
 .. code-block:: bash
 
-    $ mkvirtualenv sse
+    $ pyvenv sse
     $ pip install flask-sse gunicorn gevent
 
 Make a file on your computer called ``sse.py``, with the following content:
