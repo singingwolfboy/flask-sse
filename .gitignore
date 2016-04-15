@@ -3,4 +3,5 @@
 .DS_Store
 docs/_build
 .cache
+build
 dist

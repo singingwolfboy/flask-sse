@@ -6,7 +6,7 @@ from flask import Blueprint, request, current_app, json, stream_with_context
 from redis import StrictRedis
 import six
 
-__version__ = '0.2'
+__version__ = '0.2.1'
 
 
 @six.python_2_unicode_compatible
