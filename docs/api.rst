@@ -6,3 +6,5 @@ API
 
 .. autoclass:: flask_sse.ServerSentEventsBlueprint
    :members:
+
+.. autodata:: flask_sse.sse

@@ -161,4 +161,11 @@ class ServerSentEventsBlueprint(Blueprint):
 
 
 sse = ServerSentEventsBlueprint('sse', __name__)
+"""
+An instance of :class:`~flask_sse.ServerSentEventsBlueprint`
+that hooks up the :meth:`~flask_sse.ServerSentEventsBlueprint.stream`
+method as a view function at the root of the blueprint. If you don't
+want to customize this blueprint at all, you can simply import and
+use this instance in your application.
+"""
 sse.add_url_rule(rule="", endpoint="stream", view_func=sse.stream)

@@ -3,12 +3,12 @@ Flask-SSE
 
 A Flask extension for HTML5 `server-sent events`_ support, powered by Redis_.
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
 
    quickstart
+   config
+   advanced
    api
 
 
