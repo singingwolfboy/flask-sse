@@ -14,7 +14,7 @@ order:
 
 If it doesn't find a Redis connection URL, Flask-SSE will raise a
 :exc:`KeyError` any time a client tries to access the SSE stream, or any time
-an event is pubished.
+an event is published.
 
 We recommend that you set this connection URL in an environment variable,
 and then load it into your application configuration using :data:`os.environ`,
