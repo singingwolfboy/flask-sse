@@ -28,6 +28,10 @@ like this:
     app = Flask(__name__)
     app.config["REDIS_URL"] = os.environ.get("REDIS_URL")
 
+If you are using a Redis server that has a password use::
+
+    app.config["REDIS_URL"] = "redis://:password@localhost"
+
 Application Server
 ------------------
 
