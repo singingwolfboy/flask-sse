@@ -43,6 +43,10 @@ Make a file on your computer called ``sse.py``, with the following content:
         sse.publish({"message": "Hello!"}, type='greeting')
         return "Message sent!"
 
+If you are using a Redis server that has a password use::
+
+    app.config["REDIS_URL"] = "redis://:password@localhost"
+
 Make a ``templates`` folder next to ``sse.py``, and create a file named
 ``index.html`` in that folder, with the following content:
 
