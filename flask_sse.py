@@ -133,6 +133,10 @@ class ServerSentEventsBlueprint(Blueprint):
         """
         A generator of :class:`~flask_sse.Message` objects from the given channel.
         """
+
+        # Return an initial response to the request.
+        yield b''
+
         pubsub = self.redis.pubsub()
         pubsub.subscribe(channel)
         for pubsub_message in pubsub.listen():
