@@ -31,7 +31,7 @@ Make a file on your computer called ``sse.py``, with the following content:
     from flask_sse import sse
 
     app = Flask(__name__)
-    app.config["REDIS_URL"] = "redis://localhost"
+    app.config["SSE_REDIS_URL"] = "redis://localhost"
     app.register_blueprint(sse, url_prefix='/stream')
 
     @app.route('/')
@@ -45,7 +45,7 @@ Make a file on your computer called ``sse.py``, with the following content:
 
 If you are using a Redis server that has a password use::
 
-    app.config["REDIS_URL"] = "redis://:password@localhost"
+    app.config["SSE_REDIS_URL"] = "redis://:password@localhost"
 
 Make a ``templates`` folder next to ``sse.py``, and create a file named
 ``index.html`` in that folder, with the following content:
