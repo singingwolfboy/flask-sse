@@ -10,7 +10,7 @@ Example of sending events:
     from flask_sse import sse
 
     app = Flask(__name__)
-    app.config["REDIS_URL"] = "redis://localhost"
+    app.config["SSE_REDIS_URL"] = "redis://localhost"
     app.register_blueprint(sse, url_prefix='/stream')
 
     @app.route('/send')
