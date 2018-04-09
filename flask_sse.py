@@ -127,18 +127,21 @@ class ServerSentEventsBlueprint(Blueprint):
         """
         message = Message(data, type=type, id=id, retry=retry)
         msg_json = json.dumps(message.to_dict())
-        return self.redis.publish(channel=channel, message=msg_json)
+        return self.redis.publish(channel=channel, message=msg_json, socket_timeout=10)
 
     def messages(self, channel='sse'):
         """
         A generator of :class:`~flask_sse.Message` objects from the given channel.
         """
-        pubsub = self.redis.pubsub()
-        pubsub.subscribe(channel)
-        for pubsub_message in pubsub.listen():
-            if pubsub_message['type'] == 'message':
-                msg_dict = json.loads(pubsub_message['data'])
-                yield Message(**msg_dict)
+        try:
+            pubsub = self.redis.pubsub()
+            pubsub.subscribe(channel)
+            for pubsub_message in pubsub.listen():
+                if pubsub_message['type'] == 'message':
+                    msg_dict = json.loads(pubsub_message['data'])
+                    yield Message(**msg_dict)
+        except:
+            yield []
 
     def stream(self):
         """
