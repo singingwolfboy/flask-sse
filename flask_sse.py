@@ -100,13 +100,16 @@ class ServerSentEventsBlueprint(Blueprint):
     def redis(self):
         """
         A :class:`redis.StrictRedis` instance, configured to connect to the
-        current application's Redis server.
+        current application's Redis server with time out.
         """
         redis_url = current_app.config.get("SSE_REDIS_URL")
+        redis_time_out = current_app.config.get("SSE_REDIS_TIMEOUT")
         if not redis_url:
             redis_url = current_app.config.get("REDIS_URL")
         if not redis_url:
             raise KeyError("Must set a redis connection URL in app config.")
+        if redis_time_out:
+            return StrictRedis.from_url(redis_url, socket_timeout=redis_time_out)
         return StrictRedis.from_url(redis_url)
 
     def publish(self, data, type=None, id=None, retry=None, channel='sse'):
@@ -127,7 +130,7 @@ class ServerSentEventsBlueprint(Blueprint):
         """
         message = Message(data, type=type, id=id, retry=retry)
         msg_json = json.dumps(message.to_dict())
-        return self.redis.publish(channel=channel, message=msg_json, socket_timeout=10)
+        return self.redis.publish(channel=channel, message=msg_json)
 
     def messages(self, channel='sse'):
         """
