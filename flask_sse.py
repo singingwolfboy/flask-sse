@@ -108,9 +108,7 @@ class ServerSentEventsBlueprint(Blueprint):
             redis_url = current_app.config.get("REDIS_URL")
         if not redis_url:
             raise KeyError("Must set a redis connection URL in app config.")
-        if redis_time_out:
-            return StrictRedis.from_url(redis_url, socket_timeout=redis_time_out)
-        return StrictRedis.from_url(redis_url)
+        return StrictRedis.from_url(redis_url, socket_timeout=redis_time_out)
 
     def publish(self, data, type=None, id=None, retry=None, channel='sse'):
         """
