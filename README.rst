@@ -18,6 +18,12 @@ Example of sending events:
         sse.publish({"message": "Hello!"}, type='greeting')
         return "Message sent!"
 
+**Note**- This is optional. If it's given not provided then the connection with the redis with be blocking, to disconnect redis connection after certain time please provide the Redis timeout in flask app config like below:
+
+.. code-block:: python
+
+    app.config["SSE_REDIS_TIMEOUT"] = 10 # time unit in seconds
+
 To receive events on a webpage, use Javascript to connect to the event stream,
 like this:
 
