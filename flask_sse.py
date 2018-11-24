@@ -8,6 +8,18 @@ import six
 
 __version__ = '0.2.1'
 
+class lazy_property:
+    def __init__(self, func):
+        self.func = func
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        else:
+            value = self.func(instance)
+            setattr(instance, self.func.__name__, value)
+            return value
+
 
 @six.python_2_unicode_compatible
 class Message(object):
@@ -96,7 +108,7 @@ class ServerSentEventsBlueprint(Blueprint):
     A :class:`flask.Blueprint` subclass that knows how to publish, subscribe to,
     and stream server-sent events.
     """
-    @property
+    @lazy_property
     def redis(self):
         """
         A :class:`redis.StrictRedis` instance, configured to connect to the
@@ -152,7 +164,10 @@ class ServerSentEventsBlueprint(Blueprint):
         @stream_with_context
         def generator():
             for message in self.messages(channel=channel):
-                yield str(message)
+                try:
+                    yield str(message)
+                except:
+                    self.redis.connection_pool.disconnect()
 
         return current_app.response_class(
             generator(),
