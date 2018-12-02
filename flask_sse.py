@@ -5,20 +5,9 @@ from collections import OrderedDict
 from flask import Blueprint, request, current_app, json, stream_with_context
 from redis import StrictRedis
 import six
+from werkzeug.utils import cached_property
 
 __version__ = '0.2.1'
-
-class lazy_property:
-    def __init__(self, func):
-        self.func = func
-
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        else:
-            value = self.func(instance)
-            setattr(instance, self.func.__name__, value)
-            return value
 
 
 @six.python_2_unicode_compatible
@@ -108,7 +97,7 @@ class ServerSentEventsBlueprint(Blueprint):
     A :class:`flask.Blueprint` subclass that knows how to publish, subscribe to,
     and stream server-sent events.
     """
-    @lazy_property
+    @cached_property
     def redis(self):
         """
         A :class:`redis.StrictRedis` instance, configured to connect to the
