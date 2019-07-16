@@ -139,6 +139,8 @@ class ServerSentEventsBlueprint(Blueprint):
             if pubsub_message['type'] == 'message':
                 msg_dict = json.loads(pubsub_message['data'])
                 yield Message(**msg_dict)
+            elif pubsub_message['type'] == 'subscribe':
+                yield Message('Connected', type='connected')
 
     def stream(self):
         """
