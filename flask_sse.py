@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from collections import OrderedDict
 from flask import Blueprint, request, current_app, json, stream_with_context
 from redis import StrictRedis
-from redis import exceptions as redis_exceptions
+from redis.exceptions import ConnectionError
 import six
 
 __version__ = '0.2.1'
