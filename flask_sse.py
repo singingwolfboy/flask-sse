@@ -144,7 +144,7 @@ class ServerSentEventsBlueprint(Blueprint):
         finally:
             try:
                 pubsub.unsubscribe(channel)
-            except redis_exceptions.ConnectionError:
+            except ConnectionError:
                 pass
 
     def stream(self):
