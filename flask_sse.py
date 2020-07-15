@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from collections import OrderedDict
 from flask import Blueprint, request, current_app, json, stream_with_context
 from redis import StrictRedis
+from redis import exceptions as redis_exceptions
 import six
 
 __version__ = '0.2.1'
@@ -135,10 +136,23 @@ class ServerSentEventsBlueprint(Blueprint):
         """
         pubsub = self.redis.pubsub()
         pubsub.subscribe(channel)
+        try:
+            for msg_dict in self.messages_loop(channel, pubsub):
+                yield Message(**msg_dict)
+        finally:
+            try:
+                pubsub.unsubscribe(channel)
+            except redis_exceptions.ConnectionError:
+                pass
+
+    def messages_loop(self, channel, pubsub):
+        """
+        A generator of messages published by `~flask_sse.publish` to the given channel.
+        """
         for pubsub_message in pubsub.listen():
             if pubsub_message['type'] == 'message':
                 msg_dict = json.loads(pubsub_message['data'])
-                yield Message(**msg_dict)
+                yield msg_dict
 
     def stream(self):
         """
