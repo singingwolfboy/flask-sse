@@ -84,6 +84,7 @@ def test_messages(bp, app, mockredis):
     output = list(gen)
     assert output == [flask_sse.Message("thing", type="example")]
     pubsub.subscribe.assert_called_with('sse')
+    pubsub.unsubscribe.assert_called_with('sse')
 
 
 def test_messages_channel(bp, app, mockredis):
@@ -102,6 +103,28 @@ def test_messages_channel(bp, app, mockredis):
     output = list(gen)
     assert output == [flask_sse.Message("whee", id="abc")]
     pubsub.subscribe.assert_called_with('whee')
+    pubsub.unsubscribe.assert_called_with('whee')
+
+
+def test_messages_close(bp, app, mockredis):
+    app.config["SSE_REDIS_URL"] = "redis://localhost"
+    pubsub = mockredis.pubsub.return_value
+    pubsub.listen.return_value = [
+        {
+            "type": "message",
+            "data": '{"data": "whee", "id": "abc"}',
+        }
+    ]
+
+    gen = bp.messages('whee')
+
+    assert isinstance(gen, types.GeneratorType)
+    output = next(gen)
+    assert output == flask_sse.Message("whee", id="abc")
+    pubsub.subscribe.assert_called_with('whee')
+    pubsub.unsubscribe.assert_not_called()
+    gen.close()
+    pubsub.unsubscribe.assert_called_with('whee')
 
 
 def test_stream(bp, app, mockredis):
