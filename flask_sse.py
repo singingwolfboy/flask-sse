@@ -137,22 +137,12 @@ class ServerSentEventsBlueprint(Blueprint):
         pubsub = self.redis.pubsub()
         pubsub.subscribe(channel)
         try:
-            for msg_dict in self.messages_loop(channel, pubsub):
-                yield Message(**msg_dict)
+            for pubsub_message in pubsub.listen():
+                if pubsub_message['type'] == 'message':
+                    msg_dict = json.loads(pubsub_message['data'])
+                    yield Message(**msg_dict)
         finally:
-            try:
-                pubsub.unsubscribe(channel)
-            except redis_exceptions.ConnectionError:
-                pass
-
-    def messages_loop(self, channel, pubsub):
-        """
-        A generator of messages published by `~flask_sse.publish` to the given channel.
-        """
-        for pubsub_message in pubsub.listen():
-            if pubsub_message['type'] == 'message':
-                msg_dict = json.loads(pubsub_message['data'])
-                yield msg_dict
+            pubsub.unsubscribe(channel)
 
     def stream(self):
         """
