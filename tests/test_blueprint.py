@@ -96,6 +96,7 @@ def test_messages_channel(bp, app, mockredis):
             "data": '{"data": "whee", "id": "abc"}',
         }
     ]
+    pubsub.unsubscribe.side_effect = redis.exceptions.ConnectionError()
 
     gen = bp.messages('whee')
 
