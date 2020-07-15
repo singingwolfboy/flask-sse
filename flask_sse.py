@@ -142,7 +142,10 @@ class ServerSentEventsBlueprint(Blueprint):
                     msg_dict = json.loads(pubsub_message['data'])
                     yield Message(**msg_dict)
         finally:
-            pubsub.unsubscribe(channel)
+            try:
+                pubsub.unsubscribe(channel)
+            except redis_exceptions.ConnectionError:
+                pass
 
     def stream(self):
         """
