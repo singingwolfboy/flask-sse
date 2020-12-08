@@ -35,8 +35,8 @@ is hosted on ReadTheDocs. <http://flask-sse.readthedocs.org/>`_
 .. _server-sent events: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
 .. _Redis: http://www.redis.io/
 
-.. |build-status| image:: https://travis-ci.org/singingwolfboy/flask-sse.svg?branch=master&style=flat
-   :target: https://travis-ci.org/singingwolfboy/flask-sse
+.. |build-status| image:: https://github.com/singingwolfboy/flask-sse/workflows/Test/badge.svg
+   :target: https://github.com/singingwolfboy/flask-sse/actions?query=workflow%3ATest
    :alt: Build status
 .. |coverage-status| image:: http://codecov.io/github/singingwolfboy/flask-sse/coverage.svg?branch=master
    :target: http://codecov.io/github/singingwolfboy/flask-sse?branch=master

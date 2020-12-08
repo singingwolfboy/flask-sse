@@ -1,0 +1,38 @@
+name: Test
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["2.x", "3.x"]
+    name: "pytest: Python ${{ matrix.python-version }}"
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: >-
+          pip install
+          -r requirements.txt
+          -r dev-requirements.txt
+          .
+
+      - name: Run tests
+        run: pytest --cov=flask_sse
+
+      - name: Upload coverage to Codecov
+        if: ${{ always() }}
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: false
