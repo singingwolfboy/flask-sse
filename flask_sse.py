@@ -7,7 +7,7 @@ from redis import StrictRedis
 from redis.exceptions import ConnectionError
 import six
 
-__version__ = '0.2.1'
+__version__ = '1.0.0'
 
 
 @six.python_2_unicode_compatible
