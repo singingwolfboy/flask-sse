@@ -35,13 +35,13 @@ setup(
     install_requires=install_requires,
     tests_require=test_requires,
     license='MIT',
-    classifiers=(
+    classifiers=[
         'License :: OSI Approved :: MIT License',
         'Framework :: Flask',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
-    ),
+    ],
     zip_safe=False,
 )
