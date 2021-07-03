@@ -53,3 +53,11 @@ access control. For example:
     def check_access():
         if request.args.get("channel") == "analytics" and not g.user.is_admin():
             abort(403)
+
+    app.register_blueprint(sse, url_prefix='/sse')
+
+.. warning::
+
+   When defining a :meth:`~flask.Blueprint.before_request` handler, the blueprint
+   must be registered *after* the handler is defined! Otherwise, the handler will
+   have no effect.
