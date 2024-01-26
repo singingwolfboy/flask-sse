@@ -164,6 +164,7 @@ class ServerSentEventsBlueprint(Blueprint):
         return current_app.response_class(
             generator(),
             mimetype='text/event-stream',
+            headers={'X-Accel-Buffering': 'no', 'Cache-Control': 'no-cache'},
         )
 
 
