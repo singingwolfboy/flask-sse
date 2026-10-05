@@ -1,4 +1,5 @@
 import pytest
+import six
 from flask_sse import Message
 
 
@@ -41,6 +42,33 @@ def test_multiline_data():
     assert m.to_dict() == {"data": "foo\nbar"}
     assert repr(m) == "Message('foo\\nbar')"
     assert str(m) == 'data:foo\ndata:bar\n\n'
+
+
+@pytest.mark.parametrize('data, expected', [
+    ('', 'data:\n\n'),
+    ('\n', 'data:\ndata:\n\n'),
+    ('\r', 'data:\ndata:\n\n'),
+    ('\r\n', 'data:\ndata:\n\n'),
+    ('\n\n', 'data:\ndata:\ndata:\n\n'),
+    ('foo\n', 'data:foo\ndata:\n\n'),
+    ('foo\r', 'data:foo\ndata:\n\n'),
+    ('foo\r\n', 'data:foo\ndata:\n\n'),
+    ('foo\n\n', 'data:foo\ndata:\ndata:\n\n'),
+    ('foo\r\r', 'data:foo\ndata:\ndata:\n\n'),
+    ('foo\r\n\r\n', 'data:foo\ndata:\ndata:\n\n'),
+    ('\nfoo', 'data:\ndata:foo\n\n'),
+    ('foo\rbar\r\nbaz\n', 'data:foo\ndata:bar\ndata:baz\ndata:\n\n'),
+])
+def test_data_line_boundaries(data, expected):
+    assert six.text_type(Message(data)) == expected
+
+
+@pytest.mark.parametrize('separator', [
+    u'\v', u'\f', u'\x1c', u'\x1d', u'\x1e', u'\x85', u'\u2028', u'\u2029',
+])
+def test_non_sse_line_separators(separator):
+    data = u'foo' + separator + u'bar' + separator
+    assert six.text_type(Message(data)) == u'data:' + data + u'\n\n'
 
 
 def test_all_args():

@@ -55,7 +55,8 @@ class Message(object):
             data = self.data
         else:
             data = json.dumps(self.data)
-        lines = ["data:{value}".format(value=line) for line in data.splitlines()]
+        data = data.replace('\r\n', '\n').replace('\r', '\n')
+        lines = ["data:{value}".format(value=line) for line in data.split('\n')]
         if self.type:
             lines.insert(0, "event:{value}".format(value=self.type))
         if self.id:

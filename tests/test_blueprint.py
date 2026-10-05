@@ -148,6 +148,25 @@ def test_stream(bp, app, mockredis):
     pubsub.subscribe.assert_called_with('sse')
 
 
+@pytest.mark.parametrize('data, expected', [
+    ('', 'data:\n\n'),
+    ('foo\n', 'data:foo\ndata:\n\n'),
+    ('foo\r\n', 'data:foo\ndata:\n\n'),
+    ('foo\n\n', 'data:foo\ndata:\ndata:\n\n'),
+    (u'foo\u2028bar', u'data:foo\u2028bar\n\n'),
+])
+def test_stream_preserves_data(bp, app, mockredis, data, expected):
+    app.config['SSE_REDIS_URL'] = 'redis://localhost'
+    bp.publish(data)
+    published = mockredis.publish.call_args[1]['message']
+    mockredis.pubsub.return_value.listen.return_value = [
+        {'type': 'message', 'data': published},
+    ]
+
+    response = bp.stream()
+    assert response.get_data(as_text=True) == expected
+
+
 def test_sse_object():
     assert isinstance(flask_sse.sse, flask_sse.ServerSentEventsBlueprint)
     # calling `add_url_rule` adds an entry to the `deferred_functions` list,
